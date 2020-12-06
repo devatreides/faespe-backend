@@ -18,6 +18,19 @@ class UserRequest extends FormRequest
         return backpack_auth()->check();
     }
 
+    protected function prepareForValidation()
+    {
+        if(!$this->id){
+            $this->merge([
+                'givenID' => 0
+            ]);
+        }else{
+            $this->merge([
+                'givenID' => $this->id
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,8 +38,19 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        if(request()->isMethod('put')){
+            return [
+                'name' => 'required|min:5|max:255',
+                'email' => 'required|email|unique:users,email,'.$this->givenID.',id',
+                'is_admin' => 'nullable',
+            ];
+        }
+
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|min:5|max:255',
+            'email' => 'required|email',
+            'is_admin' => 'nullable',
+            'password' => 'required'
         ];
     }
 
