@@ -39,7 +39,9 @@ class CityCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        // CRUD::setFromDb(); // columns
+        CRUD::addColumn(['name' => 'name', 'type' => 'text', 'label' => 'Nome']);
+        CRUD::addColumn(['name' => 'uf', 'type' => 'text', 'label' => 'UF']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,7 +60,9 @@ class CityCrudController extends CrudController
     {
         CRUD::setValidation(CityRequest::class);
 
-        CRUD::setFromDb(); // fields
+        // CRUD::setFromDb(); // fields
+        CRUD::addField(['name' => 'name', 'type' => 'text', 'label' => 'Cidade']);
+        CRUD::addField(['name' => 'uf', 'type' => 'text', 'label' => 'UF']);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
