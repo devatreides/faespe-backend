@@ -34,6 +34,10 @@ class Category extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function purchaseRequests()
+    {
+        return $this->belongsToMany(PurchaseRequest::class);
+    }
 
     /*
     |--------------------------------------------------------------------------

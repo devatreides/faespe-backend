@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
@@ -28,12 +29,22 @@ class City extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    protected static function booted()
+    {
+        static::addGlobalScope('mtCities', function (Builder $builder) {
+            $builder->where('uf', 'MT');
+        });
+    }
 
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function purchaseRequests()
+    {
+        return $this->hasMany(PurchaseRequest::class);
+    }
 
     /*
     |--------------------------------------------------------------------------

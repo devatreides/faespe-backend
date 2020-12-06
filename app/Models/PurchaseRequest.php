@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PurchaseRequest extends Model
 {
-    use CrudTrait;
+    use CrudTrait, SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +35,15 @@ class PurchaseRequest extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -52,4 +62,17 @@ class PurchaseRequest extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function setTermOfReferenceAttribute($value)
+    {
+        $attribute_name = "term_of_reference";
+        $disk = "public";
+        $destination_path = 'terms';
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
+    public function setStatusAttribute($value)
+    {
+        $this->attributes['status'] = ($value == 1) ? true : false;
+    }
 }

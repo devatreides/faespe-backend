@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -52,6 +52,10 @@ class User extends Authenticatable
 
     public function setIsAdminAttribute($value)
     {
-        $this->attributes['is_admin'] = $value === 'Sim' ? true : false;
+        $this->attributes['is_admin'] = ($value === 'Sim' || $value == 1) ? true : false;
+    }
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = Hash::make($value);
     }
 }

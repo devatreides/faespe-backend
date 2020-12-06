@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PurchaseRequestRequest;
+use App\Models\Category;
+use App\Models\City;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
-/**
- * Class PurchaseRequestCrudController
- * @package App\Http\Controllers\Admin
- * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
- */
 class PurchaseRequestCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -18,12 +15,8 @@ class PurchaseRequestCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     *
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(\App\Models\PurchaseRequest::class);
@@ -31,50 +24,160 @@ class PurchaseRequestCrudController extends CrudController
         CRUD::setEntityNameStrings('requisição de compra', 'requisições de compra');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     *
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        CRUD::addColumn([
+            'name' => 'protocol',
+            'type' => 'text',
+            'label' => 'Protocolo',
+            'priority' => 1
+        ]);
+        CRUD::addColumn([
+            'name' => 'term_of_reference',
+            'type' => 'upload',
+            'label' => 'Termo de Referência',
+            'priority' => 7,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    return '/storage/'.$entry['term_of_reference'];
+                },
+                'target' => '_blank',
+            ],
+        ]);
+        CRUD::addColumn([
+            'name' => 'city',
+            'type' => 'relationship',
+            'label' => 'Cidade',
+            'priority' => 2
+        ]);
+        CRUD::addColumn([
+            'label'     => 'Categorias',
+            'type'      => 'select_multiple',
+            'name'      => 'category',
+            'entity'    => 'category',
+            'attribute' => 'name',
+            'model'     => 'App\Models\Category',
+            'priority' => 6
+         ]);
+        CRUD::addColumn([
+            'name' => 'deadline',
+            'type' => 'date',
+            'label' => 'Prazo de Entrega',
+            'priority' => 3
+        ]);
+        CRUD::addColumn([
+            'name' => 'publication_date',
+            'type' => 'date',
+            'label' => 'Data de Publicação',
+            'priority' => 8
+        ]);
+        CRUD::addColumn([
+            'name' => 'situation',
+            'type' => 'text',
+            'label' => 'Situação',
+            'priority' => 4
+        ]);
+        CRUD::addColumn([
+            'name'  => 'status',
+            'label' => 'Status',
+            'type'  => 'boolean',
+            'options' => [0 => 'Rascunho', 1 => 'Publicado'],
+            'priority' => 5
+        ]);
+        CRUD::addColumn([
+            'name' => 'request_winner',
+            'type' => 'text',
+            'label' => 'Empresa Vencedora',
+            'priority' => 9
+        ]);
+        CRUD::addColumn([
+            'name' => 'request_winner_file',
+            'type' => 'upload',
+            'label' => 'Proposta',
+            'priority' => 10,
+            'wrapper'   => [
+                'href' => function ($crud, $column, $entry, $related_key) {
+                    if($entry['request_winner_file'] == null){
+                        return $entry['request_winner_file'];
+                    }
+                    return '/storage/'.$entry['request_winner_file'];
+                },
+                'target' => '_blank',
+            ],
+        ]);
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PurchaseRequestRequest::class);
 
-        CRUD::setFromDb(); // fields
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        CRUD::addField([
+            'name' => 'protocol',
+            'label' => 'Protocolo',
+            'type' => 'text'
+        ]);
+        CRUD::addField([
+            'name' => 'term_of_reference',
+            'label' => 'Termo de Referência',
+            'type' => 'upload',
+            'upload' => true,
+            'disk' => 'public'
+        ]);
+        CRUD::addField([
+            'label' => "Cidade",
+            'type' => 'relationship',
+            'name' => 'city'
+        ]);
+        CRUD::addField([
+            'name' => 'deadline',
+            'type' => 'date',
+            'label' => 'Prazo de Entrega'
+        ]);
+        CRUD::addField([
+            'type' => "relationship",
+            'name' => 'category',
+            'ajax' => true,
+            'inline_create' => [ 'entity' => 'category' ]
+        ]);
+        CRUD::addField([
+            'name' => 'request_winner',
+            'label' => 'Empresa Vencedora',
+            'type' => 'text'
+        ]);
+        CRUD::addField([
+            'name' => 'request_winner_file',
+            'label' => 'Resultado',
+            'type' => 'upload',
+            'upload' => true,
+            'disk' => 'public'
+        ]);
+        CRUD::addField([
+            'name' => 'situation',
+            'label' => 'Situação da Requisição',
+            'type' => 'select2_from_array',
+            'options' => ['aberta' => 'Aberta', 'encerrada' => 'Encerrada'],
+            'allows_null' => false,
+            'default' => 'aberta',
+        ]);
+        CRUD::addField([
+            'name' => 'status',
+            'type' => 'checkbox',
+            'label' => 'Publicado no site'
+        ]);
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     *
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function fetchCategory()
+    {
+        return $this->fetch(Category::class);
+    }
+
+    public function fetchCity()
+    {
+        return $this->fetch(City::class);
     }
 }
