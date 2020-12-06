@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWinnersFilesTable extends Migration
+class CreateWinnerFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWinnersFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('winners_files', function (Blueprint $table) {
+        Schema::create('winner_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchase_request_id')->constrained();
             $table->string('name');
@@ -28,6 +28,6 @@ class CreateWinnersFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('winners_files');
+        Schema::dropIfExists('winner_files');
     }
 }
