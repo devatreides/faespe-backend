@@ -71,6 +71,15 @@ class PurchaseRequest extends Model
         $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
     }
 
+    public function setRequestWinnerFileAttribute($value)
+    {
+        $attribute_name = "request_winner_file";
+        $disk = "public";
+        $destination_path = 'winners';
+
+        $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);
+    }
+
     public function setStatusAttribute($value)
     {
         $this->attributes['status'] = ($value == 1) ? true : false;
