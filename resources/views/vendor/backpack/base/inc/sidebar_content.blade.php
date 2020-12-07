@@ -3,4 +3,6 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('purchaserequest') }}'><i class='nav-icon la la-file-invoice-dollar'></i> Req. de Compra</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('category') }}'><i class='nav-icon la la-tags'></i> Categorias</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('city') }}'><i class='nav-icon la la-map-marked-alt'></i> Cidades</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('user') }}'><i class='nav-icon la la-users'></i> Usuários</a></li>
+@can('admin')
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('user') }}'><i class='nav-icon la la-users'></i> Usuários</a></li>
+@endcan
