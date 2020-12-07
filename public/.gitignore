@@ -1,0 +1,8 @@
+*
+!.gitignore
+!.htaccess
+!favicon.ico
+!index.php
+!robots.txt
+!css/
+!js/
