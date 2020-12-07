@@ -71,7 +71,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>FAESPE</b> GestReq',
+    'project_logo'   => '<b>FAESPE</b>sysCompra',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
