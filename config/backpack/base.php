@@ -24,7 +24,7 @@ return [
     // ----
 
     // Project name. Shown in the window title.
-    'project_name' => 'FAESPE - Sistema de Compras',
+    'project_name' => 'FAESPE - Gestão de Requisições',
 
     // When clicking on the admin panel's top-left logo/name,
     // where should the user be redirected?
