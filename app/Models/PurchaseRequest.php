@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,7 +38,7 @@ class PurchaseRequest extends Model
     */
     public function city()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsToMany(City::class);
     }
 
     public function category()
@@ -50,6 +51,12 @@ class PurchaseRequest extends Model
     | SCOPES
     |--------------------------------------------------------------------------
     */
+    public function scopePublishedRequests(Builder $query)
+    {
+        return $query->where('status', true)
+            ->orderBy('situation','asc')
+            ->orderBy('publication_date','desc');
+    }
 
     /*
     |--------------------------------------------------------------------------

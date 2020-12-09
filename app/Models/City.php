@@ -43,7 +43,7 @@ class City extends Model
     */
     public function purchaseRequests()
     {
-        return $this->hasMany(PurchaseRequest::class);
+        return $this->belongsToMany(PurchaseRequest::class);
     }
 
     /*
