@@ -17,9 +17,8 @@ class CreatePurchaseRequestsTable extends Migration
             $table->id();
             $table->string('protocol', 100)->nullable();
             $table->string('term_of_reference')->nullable();
-            $table->foreignId('city_id')->nullable()->constrained();
             $table->date('deadline')->nullable();
-            $table->string('request_wiiner')->nullable();
+            $table->string('request_winner')->nullable();
             $table->string('request_winner_file')->nullable();
             $table->date('publication_date')->nullable();
             $table->string('situation', 100)->nullable();
