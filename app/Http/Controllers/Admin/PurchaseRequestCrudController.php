@@ -124,9 +124,10 @@ class PurchaseRequestCrudController extends CrudController
             'disk' => 'public'
         ]);
         CRUD::addField([
-            'label' => "Cidade",
+            'label' => "Cidade de Entrega",
             'type' => 'relationship',
-            'name' => 'city'
+            'name' => 'city',
+            'ajax' => true
         ]);
         CRUD::addField([
             'name' => 'deadline',
@@ -134,6 +135,7 @@ class PurchaseRequestCrudController extends CrudController
             'label' => 'Prazo de Entrega'
         ]);
         CRUD::addField([
+            'label' => 'Categoria',
             'type' => "relationship",
             'name' => 'category',
             'ajax' => true,
