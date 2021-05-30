@@ -15,9 +15,20 @@ Route::group([
         config('backpack.base.middleware_key', 'admin'),
     ],
     'namespace'  => 'App\Http\Controllers\Admin',
-], function () { // custom admin routes
+], function () {
+    //Manager routes
+    Route::group([
+        'middleware' => ['checkIfManager']
+    ], function () {
+        Route::crud('user', 'UserCrudController');
+    });
+    //Aquisition section
     Route::crud('purchaserequest', 'PurchaseRequestCrudController');
     Route::crud('category', 'CategoryCrudController');
     Route::crud('city', 'CityCrudController');
-    Route::crud('user', 'UserCrudController');
-}); // this should be the absolute last line of this file
+    //News section
+    Route::crud('news', 'NewsCrudController');
+    Route::crud('description', 'DescriptionCrudController');
+    Route::crud('aboutfile', 'AboutFileCrudController');
+    Route::crud('landingpage', 'LandingPageCrudController');
+});

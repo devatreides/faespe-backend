@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\UserRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Hash;
 
 class UserCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -25,7 +26,8 @@ class UserCrudController extends CrudController
     {
         CRUD::column('name')->label('Nome');
         CRUD::column('email')->label('E-mail');
-        CRUD::column('is_admin')->label('Administrador');
+        CRUD::column('is_admin')->label('Equipe FAESPE');
+        CRUD::column('is_manager')->label('Administrador');
         CRUD::column('created_at')->label('Criado em');
     }
 
@@ -36,7 +38,17 @@ class UserCrudController extends CrudController
         CRUD::field('name')->label('nome');
         CRUD::field('email')->label('E-mail');
         CRUD::field('password')->label('Senha');
-        CRUD::field('is_admin')->label('Administrador');
+        CRUD::field('is_admin')->label('Equipe FAESPE');
+        CRUD::field('is_manager')->label('Administrador');
+    }
+
+    public function store()
+    {
+        $this->crud->getRequest()->merge(['password' => Hash::make($this->crud->getRequest()->password)]);
+
+        $response = $this->traitStore();
+
+        return $response;
     }
 
     protected function setupUpdateOperation()
@@ -58,6 +70,18 @@ class UserCrudController extends CrudController
                 'disabled' => true,
                 'id' => 'user_password_field'
             ]);
-        CRUD::field('is_admin')->label('Administrador');
+        CRUD::field('is_admin')->label('Equipe FAESPE');
+        CRUD::field('is_manager')->label('Administrador');
+    }
+
+    public function update()
+    {
+        if($this->crud->getRequest()->password){
+            $this->crud->getRequest()->merge(['password' => Hash::make($this->crud->getRequest()->password)]);
+        }
+
+        $response = $this->traitUpdate();
+
+        return $response;
     }
 }

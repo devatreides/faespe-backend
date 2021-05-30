@@ -24,7 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin'
+        'is_admin',
+        'is_manager',
     ];
 
     /**
@@ -53,10 +54,16 @@ class User extends Authenticatable
 
     public function setIsAdminAttribute($value)
     {
-        $this->attributes['is_admin'] = ($value === 'Sim' || $value == 1) ? true : false;
+        $this->attributes['is_admin'] = ($value === 'Sim' || $value == 1);
     }
 
-    public function setPasswordAttribute($value) {
-        $this->attributes['password'] = Hash::make($value);
+    public function getIsManagerAttribute($value)
+    {
+        return $value ? 'Sim' : 'Não';
+    }
+
+    public function setIsManagerAttribute($value)
+    {
+        $this->attributes['is_manager'] = ($value === 'Sim' || $value == 1);
     }
 }

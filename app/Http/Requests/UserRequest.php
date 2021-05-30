@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserRequest extends FormRequest
 {
@@ -29,6 +30,12 @@ class UserRequest extends FormRequest
                 'givenID' => $this->id
             ]);
         }
+
+        if($this->password){
+            $this->merge([
+                'password' => Hash::make($this->password)
+            ]);
+        }
     }
 
     /**
@@ -38,18 +45,11 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        if(request()->isMethod('put')){
-            return [
-                'name' => 'required|min:5|max:255',
-                'email' => 'required|email|unique:users,email,'.$this->givenID.',id',
-                'is_admin' => 'nullable',
-            ];
-        }
-
         return [
             'name' => 'required|min:5|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:App\Models\User,email,'.$this->givenID.',id,deleted_at,NULL',
             'is_admin' => 'nullable',
+            'is_manager' => 'nullable',
             'password' => 'required'
         ];
     }

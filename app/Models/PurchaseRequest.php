@@ -89,6 +89,6 @@ class PurchaseRequest extends Model
 
     public function setStatusAttribute($value)
     {
-        $this->attributes['status'] = ($value == 1) ? true : false;
+        $this->attributes['status'] = ($value == 1);
     }
 }

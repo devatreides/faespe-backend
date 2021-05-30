@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
+            if (Auth::guard($guard)->check() && backpack_user()->is_admin === 'Não') {
                 return redirect(RouteServiceProvider::HOME);
             }
         }

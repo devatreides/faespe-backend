@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckAdmin
+class CheckIfManager
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class CheckAdmin
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {dd(auth()->user());
-        if(auth()->user()->is_admin !== true){
+    {
+        if(backpack_user()->is_manager !== 'Sim'){
             return redirect('/admin/dashboard');
         }
 

@@ -24,7 +24,7 @@ return [
     // ----
 
     // Project name. Shown in the window title.
-    'project_name' => 'FAESPE - Gestão de Requisições',
+    'project_name' => 'FAESPE - PORTAL',
 
     // When clicking on the admin panel's top-left logo/name,
     // where should the user be redirected?
@@ -71,7 +71,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>FAESPE</b>sysCompra',
+    'project_logo'   => '<b>FAESPE</b>portal',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -108,7 +108,7 @@ return [
     'developer_name' => 'Tom Benevides',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'http://tombenevides.me',
+    'developer_link' => 'http://twitter.com/tongedev',
 
     // Show powered by Laravel Backpack in the footer? true/false
     'show_powered_by' => false,

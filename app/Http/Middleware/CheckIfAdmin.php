@@ -28,8 +28,7 @@ class CheckIfAdmin
      */
     private function checkIfUserIsAdmin($user)
     {
-        // return ($user->is_admin === true);
-        return true;
+        return (backpack_user()->is_admin == 'Sim');
     }
 
     /**
